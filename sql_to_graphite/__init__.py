@@ -33,7 +33,7 @@ def run(graphite_host, graphite_port, graphite_prefix, timestamped, queries, exe
             else:
                 metric, value = line[:2]
                 metric = '{}.{} {} {:0.0f}\n'.format(graphite_prefix, metric, value, now)
-            print (metric, end=" ")
+            print (metric)
             sock.sendall(metric.encode())
     sock.close()
 
