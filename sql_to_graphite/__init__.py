@@ -29,7 +29,7 @@ def run(graphite_host, graphite_port, graphite_prefix, timestamped, queries, exe
         for line in result:
             if timestamped:
                 metric, value, timestamp = line[:3]
-                metric = '{}.{} {} {:0.0f}\n'.format(graphite_prefix, metric, value, timestamp.timestamp())
+                metric = '{}.{} {} {:0.0f}\n'.format(graphite_prefix, metric, value, timestamp)
             else:
                 metric, value = line[:2]
                 metric = '{}.{} {} {:0.0f}\n'.format(graphite_prefix, metric, value, now)
