@@ -8,8 +8,15 @@ import sqlalchemy
 
 def get_executor(dsn):
     engine = sqlalchemy.create_engine(dsn)
-    connection = engine.connect()
-    return connection.execute
+    connection = engine.raw_connection()
+    cursor = connection.cursor()
+    return cursor.execute
+
+def get_rows(results):
+
+    while not results.rowcount < 0:
+        results.nextset()
+    return results.fetchall()
 
 def get_info():
     parser = argparse.ArgumentParser(description='Send SQL results to Graphite')
@@ -24,7 +31,7 @@ def run(graphite_host, graphite_port, graphite_prefix, timestamped, queries, exe
     data = []
     now = time.time()
     sock = _socket_for_host_port(graphite_host, graphite_port)
-    data = [executor(q) for q in queries]
+    data = [get_rows(executor(q)) for q in queries]
     for result in data:
         for line in result:
             if timestamped:

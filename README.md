@@ -1,22 +1,24 @@
-# SQL-to-Graphite
+# SQL to Graphite with Docker
 
-A tool to easily send the results of SQL queries to Graphite!
+Based on [sql-to-graphite](https://github.com/sashman/sql-to-graphite).
 
-## Installation
+## Using with mssql
 
-```
-pip install sql-to-graphite
-```
+1. Edit `odbc.ini` to contain the name and the address of your Server
+2. The queries directory needs to be linked by a volume
+  - The format of the fields (in the `SELECT` statement) in the query must be:
 
-## Running
+    | Metric Key | Value  | Unix Timestamp
+    |-------------|-------|-
+    | example.test | 123 | 1495670400
+  - The queries have to be in the file called `queries.sql`
 
-```
-export S2G_DSN="mysq://username:password@host/db"
-cat queries.sql | sql-to-graphite --graphite-host graphite.example.com --graphite-prefix db.metrics --dsn "mssql://<user>:<password>@ServerDSN" --timestamped-metric
-```
-
-The queries piped in should be a single query per line returning 2 columns. If there are more columns they will be ignored. The first column returned should be the metric name (minus the --graphite-prefix option) and the value.
-
-```
-SELECT 'example.test', 3, 1495670400;
-```
+  3. Use a DSN string in the following format `"mssql://<user>:<password>@ServerDSN"`
+  4. Build the image with:
+  ```console
+  docker build -t sql-to-graphite .
+  ```
+  5. Run the script (in docker) with:
+  ```console
+  docker run -v `pwd`/queries:/queries/ -e GRAPHITE_HOST=graphite.example.com -e PREFIX=test -e S2G_DSN="mssql://<user>:<password>@ServerDSN" sql-to-graphite
+  ```
