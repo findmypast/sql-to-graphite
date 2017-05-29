@@ -36,4 +36,4 @@ RUN pip install -e sql-to-graphite-master/
 COPY odbc.ini /etc/odbc.ini
 COPY show_odbc_sources.py .
 
-CMD cat queries/queries.sql | sql-to-graphite --graphite-host $GRAPHITE_HOST --graphite-prefix $PREFIX --timestamped-metric
+CMD cat $SQL_FILE | sql-to-graphite --graphite-host $GRAPHITE_HOST --graphite-prefix $PREFIX --timestamped-metric
