@@ -5,7 +5,6 @@ vars:
   service_name: sql-to-graphite
   version: master
   service_folder: .
-  graphite_prefix: trex
 
 include:
   - from: git+ssh://git@github.com:findmypast/usher_shared_tasks.git
@@ -27,4 +26,4 @@ tasks:
         options:
           register: dsn
       - do: shell
-        command: docker run -v c:/work/sql-to-graphite/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> sql-to-graphite
+        command: docker run -v `pwd`/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> sql-to-graphite
