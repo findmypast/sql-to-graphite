@@ -26,4 +26,4 @@ tasks:
         options:
           register: dsn
       - do: shell
-        command: docker run -v `pwd`/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> <%=registry%>/findmypast/sql-to-graphite:<%=version%>
+        command: docker run --rm -v `pwd`/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> <%=registry%>/findmypast/sql-to-graphite:<%=version%>
