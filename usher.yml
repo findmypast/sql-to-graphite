@@ -15,7 +15,7 @@ include:
 
 tasks:
   build:
-    do: global.docker.create_image
+    do: publish_docker_image
 
   copy_data:
     description: Run the specified query and copy data to Graphite
@@ -26,4 +26,4 @@ tasks:
         options:
           register: dsn
       - do: shell
-        command: docker run --rm --name sql-to-graphite -v `pwd`/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> <%=registry%>/findmypast/sql-to-graphite:<%=version%>
+        command: docker run --rm --name sql-to-graphite -v c:/work/sql-to-graphite/minified_queries:/minified_queries -e GRAPHITE_HOST=graphite.dun.fh -e PREFIX=<%=graphite_prefix%> -e S2G_DSN="<%=dsn%>" -e SQL_FILE=<%=sql_file%> <%=registry%>/findmypast/sql-to-graphite:<%=version%>
