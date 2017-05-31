@@ -15,7 +15,7 @@ include:
 
 tasks:
   build:
-    do: publish_docker_image
+    do: global.docker.publish_docker_image
 
   copy_data:
     description: Run the specified query and copy data to Graphite
